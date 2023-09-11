@@ -10,7 +10,7 @@ export const ProductListItem: React.FC<ProductListItemType> = ({ product }) => {
 	const { name, price, category, image } = product;
 
 	return (
-		<li className="minw bg-white p-4 transition hover:scale-105">
+		<li className="minw  bg-background-color p-4 transition hover:scale-105">
 			<article>
 				<ProductCoverImage src={image.src} alt={image.alt} />
 				<ProductListItemTitle name={name} price={price} category={category} />
