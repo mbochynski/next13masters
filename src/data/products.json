@@ -1,0 +1,42 @@
+[
+	{
+		"id": "product-1",
+		"name": "Bieszczady",
+		"price": 3389,
+		"category": "T-shirt",
+		"image": {
+			"src": "/clothes/bieszczady.jpg",
+			"alt": "koszulka bieszczady"
+		}
+	},
+	{
+		"id": "product-2",
+		"name": "Darkness",
+		"price": 3589,
+		"category": "T-shirt",
+		"image": {
+			"src": "/clothes/fern-in-darkness.jpg",
+			"alt": "koszulka fern in darkness"
+		}
+	},
+	{
+		"id": "product-3",
+		"name": "Golden Leaves",
+		"price": 13389,
+		"category": "T-shirt",
+		"image": {
+			"src": "/clothes/golden-leaves.jpg",
+			"alt": "koszulka golden leaves"
+		}
+	},
+	{
+		"id": "product-4",
+		"name": "Krywan",
+		"price": 9389,
+		"category": "T-shirt",
+		"image": {
+			"src": "/clothes/krywan.jpg",
+			"alt": "koszulka krywan"
+		}
+	}
+]
