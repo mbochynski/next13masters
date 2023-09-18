@@ -5,7 +5,7 @@ type ProductListType = {
 	products: Product[];
 };
 
-export const ProductList: React.FC<ProductListType> = ({ products }) => {
+export const ProductList: React.FC<ProductListType> = async ({ products }) => {
 	return (
 		<section>
 			<ul
