@@ -1,7 +1,19 @@
-export default function Home() {
+import { getProducts } from "@/api/products";
+import { ProductList } from "@/ui/organisms/ProductList";
+import { LinkButton } from "@/ui/atoms/LinkButton";
+
+export default async function Home() {
+	const products = await getProducts({
+		take: 4,
+	});
+
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 lg:p-24">
-			Landing page naszego sklepu
-		</main>
+		<>
+			<ProductList products={products} />
+
+			<LinkButton className="mt-8" href="/products">
+				Przejdz na stronę z produktami
+			</LinkButton>
+		</>
 	);
 }

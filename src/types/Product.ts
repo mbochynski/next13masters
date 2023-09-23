@@ -9,4 +9,5 @@ export type Product = {
 	price: number;
 	category: string;
 	image: ProductImage;
+	description: string;
 };

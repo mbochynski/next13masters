@@ -12,7 +12,7 @@ export const ProductListItem: React.FC<ProductListItemType> = ({ product }) => {
 
 	return (
 		<li className="minw  bg-background-color p-4 transition hover:scale-105">
-			<Link className="h-full" href={`/products/${id}`}>
+			<Link className="h-full" href={`/product/${id}`}>
 				<article className="flex h-full flex-col justify-between">
 					<ProductCoverImage src={image.src} alt={image.alt} />
 					<ProductListItemTitle name={name} price={price} category={category} />

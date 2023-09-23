@@ -16,26 +16,44 @@ export type Rating = {
 	count: number;
 };
 
-const mapAPIProductsToAppProducts = (products: ProductAPI[]): Product[] => {
-	return products.map((apiproduct) => {
-		const product: Product = {
-			id: apiproduct.id,
-			category: apiproduct.category,
-			image: {
-				alt: apiproduct.description,
-				src: apiproduct.image,
-			},
-			name: apiproduct.title,
-			price: apiproduct.price,
-		};
+const apiProductToAppProduct = (apiproduct: ProductAPI): Product => {
+	const product: Product = {
+		id: apiproduct.id,
+		category: apiproduct.category,
+		image: {
+			alt: apiproduct.description,
+			src: apiproduct.image,
+		},
+		name: apiproduct.title,
+		price: apiproduct.price,
+		description: apiproduct.description,
+	};
 
-		return product;
-	});
+	return product;
 };
 
-export const getProducts = async (): Promise<Product[]> => {
-	const response = await fetch("https://naszsklep-api.vercel.app/api/products?take=20");
+const mapAPIProductsToAppProducts = (products: ProductAPI[]): Product[] => {
+	return products.map(apiProductToAppProduct);
+};
+
+export const getProducts = async ({
+	take = 20,
+	offset = 0,
+}: {
+	take?: number;
+	offset?: number;
+}): Promise<Product[]> => {
+	const response = await fetch(
+		`https://naszsklep-api.vercel.app/api/products?take=${take}&offset=${offset}`,
+	);
 	const products = (await response.json()) as ProductAPI[];
 
 	return mapAPIProductsToAppProducts(products);
+};
+
+export const getProductById = async (id: Product["id"]): Promise<Product> => {
+	const response = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
+	const product = (await response.json()) as ProductAPI;
+
+	return apiProductToAppProduct(product);
 };

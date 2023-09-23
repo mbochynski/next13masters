@@ -16,7 +16,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="en">
 			<body className={clsx(inter.className, "min-h-screen")}>
 				<Header />
-				{children}
+				<main className="flex min-h-screen flex-col items-center  p-8 md:p-10 lg:p-12">
+					{children}
+				</main>
 			</body>
 		</html>
 	);

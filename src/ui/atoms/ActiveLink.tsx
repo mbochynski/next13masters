@@ -4,14 +4,14 @@ import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { type Route } from "next";
 
-export const ActiveLink = ({
+export const ActiveLink = <T extends string>({
 	href,
 	className,
 	activeClassName,
 	children,
 	exact,
 }: {
-	href: Route;
+	href: Route<T>;
 	className: string;
 	activeClassName: string;
 	children: React.ReactNode;
@@ -23,7 +23,11 @@ export const ActiveLink = ({
 	const isActive = exact ? isExact : isPartialMatch;
 
 	return (
-		<Link className={clsx(className, isActive && activeClassName)} href={href}>
+		<Link
+			className={clsx(className, isActive && activeClassName)}
+			href={href}
+			{...(isActive && { "aria-current": "page" })}
+		>
 			{children}
 		</Link>
 	);
