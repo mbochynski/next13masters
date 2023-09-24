@@ -1,10 +1,5 @@
-import { ProductList } from "@/ui/organisms/ProductList";
-import products from "@/data/products.json";
+import { redirect } from "next/navigation";
 
-export default function Products() {
-	return (
-		<main className="flex min-h-screen flex-col items-center justify-between p-8 md:p-16 lg:p-24">
-			<ProductList products={products} />
-		</main>
-	);
+export default async function Products() {
+	redirect("/products/1");
 }
