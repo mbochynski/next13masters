@@ -1,8 +1,8 @@
 import { ProductListItem } from "../molecules/ProductListItem";
-import { type Product } from "@/types/Product";
+import { type ProductListItemFragment } from "@/gql/graphql";
 
 type ProductListType = {
-	products: Product[];
+	products: ProductListItemFragment[];
 };
 
 export const ProductList: React.FC<ProductListType> = async ({ products }) => {

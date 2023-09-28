@@ -1,23 +1,29 @@
+import { type Route } from "next";
 import { ActiveLink } from "../atoms/ActiveLink";
 
-type PaginationType = {
-	start: number;
+type PaginationType<T extends string> = {
 	range: number;
+	hrefFactory: (page: number) => Route<T>;
 	className?: string;
 };
 
-export const Pagination = ({ start, range, className }: PaginationType) => {
+export const Pagination = <T extends string>({
+	range,
+	className,
+	hrefFactory,
+}: PaginationType<T>) => {
 	const linkClassName = "p-2";
 	const activeClassName = "underline";
 
 	const links = [];
-	for (let i = start; i < start + range; ++i) {
+	for (let i = 1; i < range + 1; ++i) {
 		links.push(
 			<ActiveLink
+				key={`page-${i}`}
 				exact
 				className={linkClassName}
 				activeClassName={activeClassName}
-				href={`/products/${i}`}
+				href={hrefFactory(i)}
 			>
 				{i}
 			</ActiveLink>,
