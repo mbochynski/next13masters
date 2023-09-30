@@ -41,6 +41,9 @@ dependencies:
   tailwindcss:
     specifier: 3.3.3
     version: 3.3.3
+  ts-debounce:
+    specifier: ^4.0.0
+    version: 4.0.0
   typescript:
     specifier: 5.2.2
     version: 5.2.2
@@ -4938,6 +4941,10 @@ packages:
       typescript: '>=4.2.0'
     dependencies:
       typescript: 5.2.2
+
+  /ts-debounce@4.0.0:
+    resolution: {integrity: sha512-+1iDGY6NmOGidq7i7xZGA4cm8DAa6fqdYcvO5Z6yBevH++Bdo9Qt/mN0TzHUgcCcKv1gmh9+W5dHqz8pMWbCbg==}
+    dev: false
 
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}

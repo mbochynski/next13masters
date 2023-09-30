@@ -12,8 +12,8 @@ export default async function Home() {
 
 	return (
 		<>
-			<h1 className="py-2 text-lg">Kolekcje</h1>
-			<div className="p-4">
+			<h1 className="pb-2 text-2xl">Kolekcje</h1>
+			<div className="p-4 pb-12">
 				{collections.map((collection) => {
 					return (
 						<Link
@@ -27,7 +27,7 @@ export default async function Home() {
 				})}
 			</div>
 
-			<h1 className="py-2 text-lg">Przykładowe produkty</h1>
+			<h1 className="py-2 text-2xl">Przykładowe produkty</h1>
 			<ProductList products={products} />
 
 			<LinkButton className="mt-8" href="/products">

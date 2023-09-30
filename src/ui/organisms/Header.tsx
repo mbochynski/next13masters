@@ -1,4 +1,5 @@
 import { ActiveLink } from "../atoms/ActiveLink";
+import { SearchBox } from "../molecules/SearchBox";
 import { type CategoriesGetListQuery } from "@/gql/graphql";
 
 type HeaderProps = {
@@ -35,7 +36,7 @@ export const Header = ({ categories }: HeaderProps) => {
 				})}
 			</nav>
 
-			<div>Search box</div>
+			<SearchBox />
 		</div>
 	);
 };

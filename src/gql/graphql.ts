@@ -10760,6 +10760,14 @@ export type ProductsGetListByCollectionSlugQueryVariables = Exact<{
 
 export type ProductsGetListByCollectionSlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
 
+export type ProductsGetListByNameQueryVariables = Exact<{
+  count?: InputMaybe<Scalars['Int']['input']>;
+  name: Scalars['String']['input'];
+}>;
+
+
+export type ProductsGetListByNameQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -10899,3 +10907,21 @@ export const ProductsGetListByCollectionSlugDocument = new TypedDocumentString(`
   }
   price
 }`) as unknown as TypedDocumentString<ProductsGetListByCollectionSlugQuery, ProductsGetListByCollectionSlugQueryVariables>;
+export const ProductsGetListByNameDocument = new TypedDocumentString(`
+    query ProductsGetListByName($count: Int, $name: String!) {
+  products(first: $count, where: {name_contains: $name}) {
+    ...ProductListItem
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  description
+  categories(first: 1) {
+    name
+  }
+  images(first: 1) {
+    url
+  }
+  price
+}`) as unknown as TypedDocumentString<ProductsGetListByNameQuery, ProductsGetListByNameQueryVariables>;
