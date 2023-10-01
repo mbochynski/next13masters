@@ -10730,9 +10730,9 @@ export type ProductGetByIdQueryVariables = Exact<{
 }>;
 
 
-export type ProductGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> } | null };
+export type ProductGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> } | null };
 
-export type ProductListItemFragment = { id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> };
+export type ProductListItemFragment = { id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> };
 
 export type ProductsGetListQueryVariables = Exact<{
   count: Scalars['Int']['input'];
@@ -10740,7 +10740,7 @@ export type ProductsGetListQueryVariables = Exact<{
 }>;
 
 
-export type ProductsGetListQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
+export type ProductsGetListQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
 
 export type ProductsGetListByCategorySlugQueryVariables = Exact<{
   count: Scalars['Int']['input'];
@@ -10749,7 +10749,7 @@ export type ProductsGetListByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type ProductsGetListByCategorySlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
+export type ProductsGetListByCategorySlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
 
 export type ProductsGetListByCollectionSlugQueryVariables = Exact<{
   count: Scalars['Int']['input'];
@@ -10758,7 +10758,7 @@ export type ProductsGetListByCollectionSlugQueryVariables = Exact<{
 }>;
 
 
-export type ProductsGetListByCollectionSlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
+export type ProductsGetListByCollectionSlugQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
 
 export type ProductsGetListByNameQueryVariables = Exact<{
   count?: InputMaybe<Scalars['Int']['input']>;
@@ -10766,7 +10766,7 @@ export type ProductsGetListByNameQueryVariables = Exact<{
 }>;
 
 
-export type ProductsGetListByNameQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
+export type ProductsGetListByNameQuery = { products: Array<{ id: string, name: string, description: string, price: number, categories: Array<{ name: string, slug: string }>, images: Array<{ url: string }> }> };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -10789,6 +10789,7 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   description
   categories(first: 1) {
     name
+    slug
   }
   images(first: 1) {
     url
@@ -10824,6 +10825,7 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
   description
   categories(first: 1) {
     name
+    slug
   }
   images(first: 1) {
     url
@@ -10847,6 +10849,7 @@ export const ProductsGetListDocument = new TypedDocumentString(`
   description
   categories(first: 1) {
     name
+    slug
   }
   images(first: 1) {
     url
@@ -10874,6 +10877,7 @@ export const ProductsGetListByCategorySlugDocument = new TypedDocumentString(`
   description
   categories(first: 1) {
     name
+    slug
   }
   images(first: 1) {
     url
@@ -10901,6 +10905,7 @@ export const ProductsGetListByCollectionSlugDocument = new TypedDocumentString(`
   description
   categories(first: 1) {
     name
+    slug
   }
   images(first: 1) {
     url
@@ -10919,6 +10924,7 @@ export const ProductsGetListByNameDocument = new TypedDocumentString(`
   description
   categories(first: 1) {
     name
+    slug
   }
   images(first: 1) {
     url
