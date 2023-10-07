@@ -1,0 +1,5 @@
+query ProductsGetListByName($count: Int, $name: String!) {
+	products(first: $count, where: { name_contains: $name }) {
+		...ProductListItem
+	}
+}
