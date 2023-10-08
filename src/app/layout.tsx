@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-	const { categories } = await executeGraphql(CategoriesGetListDocument);
+	const { categories } = await executeGraphql({ query: CategoriesGetListDocument });
 
 	return (
 		<html lang="en">

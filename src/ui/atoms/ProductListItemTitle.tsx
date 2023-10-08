@@ -1,13 +1,9 @@
+import { formatPrice } from "@/utils";
+
 type ProductListItemTitleType = {
 	name: string;
 	price: number;
 	category: string;
-};
-
-const priceFormatter = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
-
-const formatPrice = (price: number): string => {
-	return priceFormatter.format(price);
 };
 
 export const ProductListItemTitle: React.FC<ProductListItemTitleType> = ({

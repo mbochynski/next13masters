@@ -11,8 +11,11 @@ type ProductsPageProps = {
 };
 
 export async function generateStaticParams() {
-	const { productsConnection } = await executeGraphql(ProductsGetListDocument, {
-		count: 0,
+	const { productsConnection } = await executeGraphql({
+		query: ProductsGetListDocument,
+		variables: {
+			count: 0,
+		},
 	});
 
 	const productLength = productsConnection.aggregate.count;
@@ -26,9 +29,12 @@ export async function generateStaticParams() {
 export default async function ProductsPage({ params: { page } }: ProductsPageProps) {
 	const currentPage = Number(page);
 
-	const { products, productsConnection } = await executeGraphql(ProductsGetListDocument, {
-		count: PAGE_SIZE,
-		offset: getOffsetByPageNumber(currentPage),
+	const { products, productsConnection } = await executeGraphql({
+		query: ProductsGetListDocument,
+		variables: {
+			count: PAGE_SIZE,
+			offset: getOffsetByPageNumber(currentPage),
+		},
 	});
 
 	const numberOfPages = calculatePages(productsConnection.aggregate.count);

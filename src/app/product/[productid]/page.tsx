@@ -1,16 +1,19 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { cookies } from "next/headers";
+import { revalidateTag } from "next/cache";
 import { RelatedProducts } from "./relatedProducts";
+import { AddToCartButton } from "./AddToCartButton";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { executeGraphql } from "@/api/graphqlApi";
-import { ProductGetByIdDocument } from "@/gql/graphql";
-
-const priceFormatter = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
-
-const formatPrice = (price: number): string => {
-	return priceFormatter.format(price);
-};
+import {
+	CartAddItemDocument,
+	CartCreateDocument,
+	CartGetByIdDocument,
+	ProductGetByIdDocument,
+} from "@/gql/graphql";
+import { formatPrice } from "@/utils";
 
 type PageProps = {
 	params: {
@@ -19,8 +22,11 @@ type PageProps = {
 };
 
 export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
-	const { product } = await executeGraphql(ProductGetByIdDocument, {
-		id: props.params.productid,
+	const { product } = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: {
+			id: props.params.productid,
+		},
 	});
 
 	return {
@@ -30,12 +36,26 @@ export const generateMetadata = async (props: PageProps): Promise<Metadata> => {
 };
 
 export default async function Product(props: PageProps) {
-	const { product } = await executeGraphql(ProductGetByIdDocument, {
-		id: props.params.productid,
+	const { product } = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: {
+			id: props.params.productid,
+		},
 	});
 
 	if (!product) {
 		notFound();
+	}
+
+	async function addProductToCartAction() {
+		"use server";
+		if (!product) {
+			return;
+		}
+
+		const cart = await getOrCreateCart();
+		await addProductToCart(cart.id, product.id);
+		revalidateTag("cart");
 	}
 
 	// TODO Brakuje wariantu produktu. zadanie 3, punkt 6:
@@ -48,7 +68,11 @@ export default async function Product(props: PageProps) {
 				<div className="flex-grow flex-col p-8">
 					<h1>{product.name.trim()}</h1>
 					<div>{product.categories[0].name}</div>
-					<div>{formatPrice(product.price)}</div>
+					<div>{formatPrice(product.price / 100)}</div>
+					<form action={addProductToCartAction}>
+						<input type="text" name="productId" value={product.id} hidden readOnly />
+						<AddToCartButton />
+					</form>
 				</div>
 			</article>
 			<Suspense fallback={<h3>Loading...</h3>}>
@@ -56,4 +80,59 @@ export default async function Product(props: PageProps) {
 			</Suspense>
 		</>
 	);
+}
+
+async function getOrCreateCart() {
+	const cartId = cookies().get("cartId")?.value;
+	if (cartId) {
+		const { order: cart } = await executeGraphql({
+			query: CartGetByIdDocument,
+			variables: {
+				id: cartId,
+			},
+			next: {
+				tags: ["cart"],
+			},
+		});
+		if (cart) {
+			return cart;
+		}
+	}
+
+	const { createOrder: newCart } = await executeGraphql({
+		query: CartCreateDocument,
+		next: {
+			tags: ["cart"],
+		},
+	});
+	if (!newCart) {
+		throw new Error("Failed to create cart");
+	}
+
+	cookies().set("cartId", newCart.id);
+	return newCart;
+}
+
+async function addProductToCart(cartId: string, productId: string) {
+	const { product } = await executeGraphql({
+		query: ProductGetByIdDocument,
+		variables: {
+			id: productId,
+		},
+	});
+	if (!product) {
+		throw new Error(`Product with id ${productId} not found`);
+	}
+
+	await executeGraphql({
+		query: CartAddItemDocument,
+		variables: {
+			cartId,
+			productId,
+			total: product.price,
+		},
+		next: {
+			tags: ["cart"],
+		},
+	});
 }

@@ -16,7 +16,7 @@ export const generateMetadata = async (
 	props: CategoryPageProps,
 	parent: ResolvingMetadata,
 ): Promise<Metadata> => {
-	const { categories } = await executeGraphql(CategoriesGetListDocument);
+	const { categories } = await executeGraphql({ query: CategoriesGetListDocument });
 	const category = categories.find((category) => category.slug === props.params.category);
 	const parentTitle = (await parent).title?.absolute;
 
@@ -28,17 +28,17 @@ export const generateMetadata = async (
 export default async function CategoryPage({ params }: CategoryPageProps) {
 	const { category } = params;
 
-	const { categories } = await executeGraphql(CategoriesGetListDocument);
+	const { categories } = await executeGraphql({ query: CategoriesGetListDocument });
 	const currentCategory = categories.find((category) => category.slug === params.category);
 
-	const { products, productsConnection } = await executeGraphql(
-		ProductsGetListByCategorySlugDocument,
-		{
+	const { products, productsConnection } = await executeGraphql({
+		query: ProductsGetListByCategorySlugDocument,
+		variables: {
 			categorySlug: category,
 			count: PAGE_SIZE,
 			offset: getOffsetByPageNumber(Number(params.page)),
 		},
-	);
+	});
 
 	const pageLength = calculatePages(productsConnection.aggregate.count);
 
