@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { removeItem } from "./actions";
+import { removeItem } from "../actions";
 
 export function RemoveButton({ productId }: { productId: string }) {
 	const router = useRouter();

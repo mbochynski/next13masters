@@ -1,6 +1,6 @@
 "use client";
 import { experimental_useOptimistic as useOptimistic } from "react";
-import { changeItemQuantity } from "./actions";
+import { changeItemQuantity } from "../actions";
 
 export function ChangeQuantity({ itemId, quantity }: { itemId: string; quantity: number }) {
 	const [optimisticQuantity, setOptimisticQuantity] = useOptimistic(
@@ -13,6 +13,7 @@ export function ChangeQuantity({ itemId, quantity }: { itemId: string; quantity:
 			<button
 				className="h-6 w-6 border"
 				type="submit"
+				data-testid="decrement"
 				formAction={async () => {
 					setOptimisticQuantity(optimisticQuantity - 1);
 					await changeItemQuantity(itemId, optimisticQuantity - 1);
@@ -20,10 +21,13 @@ export function ChangeQuantity({ itemId, quantity }: { itemId: string; quantity:
 			>
 				-
 			</button>
-			<span className="w-8 text-center">{optimisticQuantity}</span>
+			<span data-testid="quantity" className="w-8 text-center">
+				{optimisticQuantity}
+			</span>
 			<button
 				className="h-6 w-6 border"
 				type="submit"
+				data-testid="increment"
 				formAction={async () => {
 					setOptimisticQuantity(optimisticQuantity + 1);
 					await changeItemQuantity(itemId, optimisticQuantity + 1);

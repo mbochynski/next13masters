@@ -8,7 +8,7 @@ type ProductListItemType = {
 };
 
 export const ProductListItem: React.FC<ProductListItemType> = ({ product }) => {
-	const { id, name, price, description } = product;
+	const { id, name, price, description, averageRating } = product;
 	const category = product.categories[0].name || "";
 	const image = product.images[0].url;
 
@@ -17,7 +17,12 @@ export const ProductListItem: React.FC<ProductListItemType> = ({ product }) => {
 			<Link className="h-full" href={`/product/${id}`}>
 				<article className="flex h-full flex-col justify-between">
 					<ProductCoverImage src={image} alt={description} />
-					<ProductListItemTitle name={name} price={price} category={category} />
+					<ProductListItemTitle
+						name={name}
+						price={price}
+						category={category}
+						averageRating={averageRating}
+					/>
 				</article>
 			</Link>
 		</li>

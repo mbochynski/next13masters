@@ -1,13 +1,29 @@
+import { SortSelect } from "./SortSelect";
 import { ProductList } from "@/ui/organisms/ProductList";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { executeGraphql } from "@/api/graphqlApi";
-import { ProductsGetListDocument } from "@/gql/graphql";
+import { ProductsGetListDocument, type ProductOrderByInput } from "@/gql/graphql";
 import { PAGE_SIZE, calculatePages, getOffsetByPageNumber } from "@/ui/utils/calculatePages";
 
 type ProductsPageProps = {
 	params: {
 		page: string;
 	};
+	searchParams: {
+		sortby: string;
+	};
+};
+
+const isProductOrderByInput = (
+	maybeProductOrderByInput: unknown,
+): maybeProductOrderByInput is ProductOrderByInput => {
+	return (
+		typeof maybeProductOrderByInput === "string" &&
+		(maybeProductOrderByInput === "price_ASC" ||
+			maybeProductOrderByInput === "price_DESC" ||
+			maybeProductOrderByInput === "averageRating_ASC" ||
+			maybeProductOrderByInput === "averageRating_DESC")
+	);
 };
 
 export async function generateStaticParams() {
@@ -26,14 +42,23 @@ export async function generateStaticParams() {
 	});
 }
 
-export default async function ProductsPage({ params: { page } }: ProductsPageProps) {
+export default async function ProductsPage({
+	params: { page },
+	searchParams: { sortby },
+}: ProductsPageProps) {
 	const currentPage = Number(page);
+
+	let orderValue: ProductOrderByInput | undefined;
+	if (isProductOrderByInput(sortby)) {
+		orderValue = sortby;
+	}
 
 	const { products, productsConnection } = await executeGraphql({
 		query: ProductsGetListDocument,
 		variables: {
 			count: PAGE_SIZE,
 			offset: getOffsetByPageNumber(currentPage),
+			order: orderValue,
 		},
 	});
 
@@ -41,6 +66,8 @@ export default async function ProductsPage({ params: { page } }: ProductsPagePro
 
 	return (
 		<>
+			<SortSelect />
+
 			<ProductList products={products} />
 
 			<Pagination
