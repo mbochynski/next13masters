@@ -5,10 +5,13 @@ import { CollectionsGetListDocument, ProductsGetListDocument } from "@/gql/graph
 import { LinkButton } from "@/ui/atoms/LinkButton";
 
 export default async function Home() {
-	const { products } = await executeGraphql(ProductsGetListDocument, {
-		count: 4,
+	const { products } = await executeGraphql({
+		query: ProductsGetListDocument,
+		variables: {
+			count: 4,
+		},
 	});
-	const { collections } = await executeGraphql(CollectionsGetListDocument);
+	const { collections } = await executeGraphql({ query: CollectionsGetListDocument });
 
 	return (
 		<>

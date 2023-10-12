@@ -17,7 +17,7 @@ export const generateMetadata = async (
 	props: CollectionPageProps,
 	parent: ResolvingMetadata,
 ): Promise<Metadata> => {
-	const { collections } = await executeGraphql(CollectionsGetListDocument);
+	const { collections } = await executeGraphql({ query: CollectionsGetListDocument });
 	const collection = collections.find(
 		(collection) => collection.slug === props.params.collectionname,
 	);
@@ -31,21 +31,21 @@ export const generateMetadata = async (
 export default async function CollectionsPage({ params }: CollectionPageProps) {
 	const { collectionname } = params;
 
-	const { collections } = await executeGraphql(CollectionsGetListDocument);
+	const { collections } = await executeGraphql({ query: CollectionsGetListDocument });
 	const currentCollection = collections.find((collection) => collection.slug === collectionname);
 
 	if (!currentCollection) {
 		return notFound();
 	}
 
-	const { products, productsConnection } = await executeGraphql(
-		ProductsGetListByCollectionSlugDocument,
-		{
+	const { products, productsConnection } = await executeGraphql({
+		query: ProductsGetListByCollectionSlugDocument,
+		variables: {
 			collectionSlug: currentCollection?.slug,
 			count: PAGE_SIZE,
 			offset: getOffsetByPageNumber(Number(params.page)),
 		},
-	);
+	});
 
 	const pageLength = calculatePages(productsConnection.aggregate.count);
 

@@ -7,13 +7,13 @@ type RelatedProductsProps = {
 };
 
 export async function RelatedProducts({ product }: RelatedProductsProps) {
-	const { products: relatedProducts } = await executeGraphql(
-		ProductsGetListByCategorySlugDocument,
-		{
+	const { products: relatedProducts } = await executeGraphql({
+		query: ProductsGetListByCategorySlugDocument,
+		variables: {
 			count: 4,
 			categorySlug: product.categories[0].slug,
 		},
-	);
+	});
 
 	return (
 		<div data-testid="related-products">

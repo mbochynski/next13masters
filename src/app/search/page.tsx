@@ -11,9 +11,12 @@ type SearchResultsPageProps = {
 
 export default async function SearchResultsPage({ searchParams }: SearchResultsPageProps) {
 	const query = searchParams.query;
-	const { products } = await executeGraphql(ProductsGetListByNameDocument, {
-		count: 10,
-		name: query,
+	const { products } = await executeGraphql({
+		query: ProductsGetListByNameDocument,
+		variables: {
+			count: 10,
+			name: query,
+		},
 	});
 
 	return (
